@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gigaturnip_api/gigaturnip_api.dart';
 
@@ -22,7 +23,7 @@ void main() {
 
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getUserCampaignsResponse);
-        await _GigaTurnipApiClient.getCampaigns();
+        await _GigaTurnipApiClient?.getCampaigns();
 
         mockApi.expectRequestSentTo('/api/v1/campaigns');
       });
@@ -41,7 +42,7 @@ void main() {
 
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getUserCampaignsResponse);
-        await _GigaTurnipApiClient.getUserCampaigns();
+        await _GigaTurnipApiClient?.getUserCampaigns();
 
         mockApi.expectRequestSentTo('/api/v1/campaigns/list_user_campaigns');
       });
@@ -51,7 +52,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getUserCampaigns(),
+        expect(() => _GigaTurnipApiClient?.getUserCampaigns(),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
@@ -61,7 +62,7 @@ void main() {
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getSelectableCampaignsResponse);
 
-        await _GigaTurnipApiClient.getSelectableCampaigns();
+        await _GigaTurnipApiClient?.getSelectableCampaigns();
 
         mockApi.expectRequestSentTo('/api/v1/campaigns/list_user_selectable');
       });
@@ -71,7 +72,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getSelectableCampaigns(),
+        expect(() => _GigaTurnipApiClient?.getSelectableCampaigns(),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
@@ -80,7 +81,7 @@ void main() {
 
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getUserRelevantTaskStagesResponse);
-        await _GigaTurnipApiClient.getUserRelevantTaskStages();
+        await _GigaTurnipApiClient?.getUserRelevantTaskStages();
 
         mockApi.expectRequestSentTo('/api/v1/campaigns/user_relevant');
       });
@@ -90,7 +91,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getUserRelevantTaskStages(),
+        expect(() => _GigaTurnipApiClient?.getUserRelevantTaskStages(),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
@@ -100,7 +101,7 @@ void main() {
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getTasksResponse);
 
-        await _GigaTurnipApiClient.getTasks();
+        await _GigaTurnipApiClient?.getTasks();
 
         mockApi.expectRequestSentTo('/api/v1/tasks');
       });
@@ -110,7 +111,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getTasks(),
+        expect(() => _GigaTurnipApiClient?.getTasks(),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
@@ -119,7 +120,7 @@ void main() {
 
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getUserSelectableTasksResponse);
-        await _GigaTurnipApiClient.getUserSelectableTasks();
+        await _GigaTurnipApiClient?.getUserSelectableTasks();
 
         mockApi.expectRequestSentTo('/api/v1/tasks/user_selectable');
       });
@@ -129,7 +130,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getUserSelectableTasks(anyTask),
+        expect(() => _GigaTurnipApiClient?.getUserSelectableTasks(anyTask),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
@@ -138,7 +139,7 @@ void main() {
 
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getUserRelevantTasksResponse);
-        await _GigaTurnipApiClient.getUserRelevantTasks();
+        await _GigaTurnipApiClient?.getUserRelevantTasks();
 
         mockApi.expectRequestSentTo('/api/v1/tasks/user_relevant');
       });
@@ -148,7 +149,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getUserRelevantTasks(),
+        expect(() => _GigaTurnipApiClient?.getUserRelevantTasks(),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
@@ -157,9 +158,9 @@ void main() {
 
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getTaskByIdResponse);
-        await _GigaTurnipApiClient.getTaskById(anyTaskId);
+        await _GigaTurnipApiClient?.getTaskById('id' = anyTaskId);
 
-        mockApi.expectRequestSentTo('/api/v1/tasks/$ anyTaskId');
+        mockApi.expectRequestSentTo('/api/v1/tasks/$anyTaskId');
       });
 
       test(
@@ -167,7 +168,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getTaskById(anyTaskId),
+        expect(() => _GigaTurnipApiClient?.getTaskById(anyTaskId),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
@@ -176,9 +177,9 @@ void main() {
 
       test('sends get request to the correct endpoint', () async {
         await mockApi.enqueueMockResponse(fileName: getIntegratedTasksResponse);
-        await _GigaTurnipApiClient.getIntegratedTasks(anyTaskId);
+        await _GigaTurnipApiClient?.getIntegratedTasks(anyTaskId);
 
-        mockApi.expectRequestSentTo('/api/v1/tasks/$ get_integrated_tasks');
+        mockApi.expectRequestSentTo('/api/v1/tasks/get_integrated_tasks');
       });
 
       test(
@@ -186,7 +187,7 @@ void main() {
           () async {
         await mockApi.enqueueMockResponse(httpCode: 454);
 
-        expect(() => _GigaTurnipApiClient.getIntegratedTasks(anyTaskId),
+        expect(() => _GigaTurnipApiClient?.getIntegratedTasks(anyTaskId),
             throwsA(isInstanceOf<UnKnowApiException>()));
       });
     });
