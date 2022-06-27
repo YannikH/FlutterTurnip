@@ -25,6 +25,7 @@ class IdTitleCard extends StatelessWidget {
         color: Colors.grey[300],
         margin: const EdgeInsets.all(8.0),
         child: InkWell(
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -42,7 +43,7 @@ class IdTitleCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(child: Text('#$id')),
-                    Text(DateFormat.yMd().add_jm().format(date!)),
+                    if (date != null) Text(DateFormat.yMd().add_jm().format(date!)),
                   ],
                 )
               ],
