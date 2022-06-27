@@ -8,8 +8,10 @@ class GigaTurnipApiClient {
   // static const baseUrl = 'http://127.0.0.1:8000';
 
   final Dio _httpClient;
+  final String _baseAddress;
 
-  GigaTurnipApiClient({Dio? httpClient})
+
+  GigaTurnipApiClient(this._baseAddress, {Dio? httpClient})
       : _httpClient = httpClient ?? Dio(BaseOptions(baseUrl: baseUrl));
 
   // Campaign methods
