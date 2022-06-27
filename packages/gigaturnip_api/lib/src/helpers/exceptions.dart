@@ -73,3 +73,7 @@ class GigaTurnipApiRequestException implements Exception {
     );
   }
 }
+
+class JsonParseException implements Exception {
+
+}
