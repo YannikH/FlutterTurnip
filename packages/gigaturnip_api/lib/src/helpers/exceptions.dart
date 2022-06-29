@@ -74,6 +74,11 @@ class GigaTurnipApiRequestException implements Exception {
   }
 }
 
-class JsonParseException implements Exception {
+class UnKnowApiException implements Exception{
+  int httpCode;
 
+  UnKnowApiException(this.httpCode);
 }
+
+class ItemNotFoundException implements Exception{}
+class NetworkException implements Exception{}

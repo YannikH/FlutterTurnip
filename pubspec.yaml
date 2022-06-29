@@ -66,9 +66,10 @@ dev_dependencies:
   build_runner: ^2.1.11
   json_serializable: ^6.2.0
 #  integration_test: ^1.0.1
-  integration_test:
-    sdk: flutter
-  mock_web_server: ^4.1.1
+#  integration_test:
+#    sdk: flutter
+
+#  mock_web_server: ^4.1.1
 
 
 # For information on the generic Dart part of this file, see the

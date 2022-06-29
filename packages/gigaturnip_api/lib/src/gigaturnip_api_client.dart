@@ -9,6 +9,7 @@ class GigaTurnipApiClient {
 
   final Dio _httpClient;
 
+
   GigaTurnipApiClient( {Dio? httpClient})
       : _httpClient = httpClient ?? Dio(BaseOptions(baseUrl: baseUrl));
 

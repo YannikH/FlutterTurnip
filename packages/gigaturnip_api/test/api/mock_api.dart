@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mock_web_server/mock_web_server.dart';
 
 class MockApi {
-  MockWebServer _server;
+  late MockWebServer _server;
 
   Future<void> start() async {
     _server = MockWebServer();
