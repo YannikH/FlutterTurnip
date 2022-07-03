@@ -82,3 +82,4 @@ class UnKnowApiException implements Exception{
 
 class ItemNotFoundException implements Exception{}
 class NetworkException implements Exception{}
+class JsonParseException implements Exception{}
