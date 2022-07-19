@@ -9,7 +9,6 @@ import 'package:gigaturnip/src/features/tasks/features/list_tasks/view/tasks_lis
 import 'package:gigaturnip/src/utilities/dialogs/error_dialog.dart';
 import 'package:gigaturnip/src/widgets/drawers/app_drawer.dart';
 
-
 class TasksView extends StatefulWidget {
   const TasksView({Key? key}) : super(key: key);
 
@@ -48,8 +47,8 @@ class _TasksViewState extends State<TasksView> {
               onPressed: () => Scaffold.of(context).openEndDrawer(),
               icon: avatar != null
                   ? CircleAvatar(
-                      backgroundImage: NetworkImage(avatar),
-                    )
+                backgroundImage: NetworkImage(avatar),
+              )
                   : const Icon(Icons.person),
             );
           })
@@ -75,9 +74,13 @@ class _TasksViewState extends State<TasksView> {
             onRefresh: () {
               context.read<TasksCubit>().refresh();
             },
-            onTap: (task) {
+            onTap: (task) async {
+              final taskBloc = context.read<TasksCubit>();
               context.read<AppBloc>().add(AppSelectedTaskChanged(task));
-              Navigator.of(context).pushNamed(taskInstanceRoute);
+              final shouldRefresh = await Navigator.of(context).pushNamed(taskInstanceRoute);
+              if (shouldRefresh == true) {
+                taskBloc.refresh();
+              }
             },
           );
         },

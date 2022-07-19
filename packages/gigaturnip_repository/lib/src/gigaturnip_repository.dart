@@ -135,6 +135,12 @@ class GigaTurnipRepository {
     _availableTasks = availableTasks;
   }
 
+  Future<Task> createTask(int id) async {
+    final taskId = await _gigaTurnipApiClient.createTask(id: id);
+    final task = await _gigaTurnipApiClient.getTaskById(id: taskId);
+    return Task.fromApiModel(task);
+  }
+
   Future<List<Task>> getTasks({
     required TasksActions action,
     required Campaign selectedCampaign,
@@ -146,7 +152,7 @@ class GigaTurnipRepository {
     if (shouldRefreshFromApi) {
       await refreshAllTasks(selectedCampaign);
     }
-    
+
     switch (action) {
       case TasksActions.listOpenTasks:
         return _openedTasks;
@@ -155,6 +161,23 @@ class GigaTurnipRepository {
       case TasksActions.listSelectableTasks:
         return _availableTasks;
     }
+  }
+
+  Future<Task> getTask(int id) async {
+    final response = await _gigaTurnipApiClient.getTaskById(id: id);
+    return Task.fromApiModel(response);
+  }
+
+  Future<int?> updateTask(Task task) async {
+    final data = task.toJson();
+    final response = await _gigaTurnipApiClient.updateTaskById(
+      id: task.id,
+      data: data,
+    );
+    if (response.containsKey('next_direct_id')) {
+      return response['next_direct_id'];
+    }
+    return null;
   }
 }
 
