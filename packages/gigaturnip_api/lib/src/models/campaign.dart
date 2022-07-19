@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:gigaturnip_api/gigaturnip_api.dart';
 
 part 'campaign.g.dart';
 
@@ -24,7 +25,11 @@ class Campaign {
     required this.managers,
   });
 
-  factory Campaign.fromJson(Map<String, dynamic> json) {
-    return _$CampaignFromJson(json);
+  factory Campaign.fromJson(Map<String, dynamic> json){
+    try {
+      return _$CampaignFromJson(json);
+    } on Exception catch (e) {
+      throw JsonParseException();
+    }
   }
 }

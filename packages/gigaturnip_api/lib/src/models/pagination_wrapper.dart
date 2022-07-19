@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:gigaturnip_api/gigaturnip_api.dart';
 
 part 'pagination_wrapper.g.dart';
 
@@ -17,6 +18,10 @@ class PaginationWrapper<T> {
   });
 
   factory PaginationWrapper.fromJson(json, T Function(Object? json) fromJsonT) {
-    return _$PaginationWrapperFromJson(json, fromJsonT);
+    try {
+      return _$PaginationWrapperFromJson(json, fromJsonT);
+    } on Exception catch (e) {
+      throw JsonParseException();
+    }
   }
 }

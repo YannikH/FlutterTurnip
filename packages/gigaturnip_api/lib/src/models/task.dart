@@ -1,5 +1,6 @@
 import 'package:gigaturnip_api/src/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:gigaturnip_api/gigaturnip_api.dart';
 
 part 'task.g.dart';
 
@@ -32,6 +33,10 @@ class Task {
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
-    return _$TaskFromJson(json);
+    try {
+      return _$TaskFromJson(json);
+    } on Exception catch (e) {
+      throw JsonParseException();
+    }
   }
 }

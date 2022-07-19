@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:gigaturnip_api/gigaturnip_api.dart';
 
 part 'chain.g.dart';
 
@@ -17,6 +18,10 @@ class Chain {
   });
 
   factory Chain.fromJson(Map<String, dynamic> json) {
-    return _$ChainFromJson(json);
+    try {
+      return _$ChainFromJson(json);
+    } on Exception catch (e) {
+      throw JsonParseException();
+    }
   }
 }

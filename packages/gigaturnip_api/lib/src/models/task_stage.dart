@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:gigaturnip_api/src/models/models.dart';
+import 'package:gigaturnip_api/gigaturnip_api.dart';
 
 part 'task_stage.g.dart';
 
@@ -71,7 +72,11 @@ class TaskStage {
   });
 
   factory TaskStage.fromJson(Map<String, dynamic> json) {
-    return _$TaskStageFromJson(json);
+    try {
+      return _$TaskStageFromJson(json);
+    } on Exception catch (e) {
+      throw JsonParseException();
+    }
   }
 
   static double _stringToDouble(String number) => double.parse(number);

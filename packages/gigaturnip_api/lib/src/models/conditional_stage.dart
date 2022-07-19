@@ -1,7 +1,9 @@
 import 'package:gigaturnip_api/src/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:gigaturnip_api/gigaturnip_api.dart';
 
 part 'conditional_stage.g.dart';
+
 
 @JsonSerializable(genericArgumentFactories: true)
 class ConditionalStage<T> {
@@ -29,6 +31,10 @@ class ConditionalStage<T> {
   });
 
   factory ConditionalStage.fromJson(json, T Function(Object? json) fromJsonT) {
-    return _$ConditionalStageFromJson(json, fromJsonT);
+    try {
+      return _$ConditionalStageFromJson(json, fromJsonT);
+    } on Exception catch (e) {
+      throw JsonParseException();
+    }
   }
 }
