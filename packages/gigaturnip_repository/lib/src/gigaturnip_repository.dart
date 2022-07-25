@@ -202,16 +202,14 @@ class GigaTurnipRepository extends State<AvailableTasks>{
             _pageNumber = _pageNumber + 1;
             _availableTasksList.addAll(_availableTasks);
           });
-          print('over there');
         } catch (e){
           print("error --> $e");
           setState(() {
             _loading = false;
             _error = true;
           });
-          print('over here');
         }
-        return _availableTasks;
+        return _availableTasksList;
     }
   }
 
