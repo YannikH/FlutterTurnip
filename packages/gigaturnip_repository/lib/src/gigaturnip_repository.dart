@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:gigaturnip_api/gigaturnip_api.dart' hide Campaign, Task, Chain, TaskStage;
 import 'package:gigaturnip_repository/gigaturnip_repository.dart';
 
@@ -8,7 +9,12 @@ enum CampaignsActions { listUserCampaigns, listSelectableCampaigns }
 
 enum TasksActions { listOpenTasks, listClosedTasks, listSelectableTasks }
 
-class GigaTurnipRepository {
+class AvailableTasks extends StatefulWidget {
+  @override
+  GigaTurnipRepository createState() => GigaTurnipRepository();
+}
+
+class GigaTurnipRepository extends State<AvailableTasks>{
   late final GigaTurnipApiClient _gigaTurnipApiClient;
 
   List<Campaign> _userCampaigns = [];
@@ -36,6 +42,34 @@ class GigaTurnipRepository {
 
   bool _shouldRefreshFromApi(DateTime lastFetchTime, bool forceRefresh) {
     return lastFetchTime.isBefore(DateTime.now().subtract(_cacheValidDuration)) || forceRefresh;
+  }
+
+  late bool _isLastPage;
+  late int _pageNumber;
+  late bool _error;
+  late bool _loading;
+  final int _numberOfPostsPerRequest = 3;
+  final int _nextPageTrigger = 2;
+  late ScrollController _scrollController;
+  late List<Task> _availableTasksList;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _pageNumber = 0;
+    _isLastPage = false;
+    _availableTasksList = [];
+    _loading = true;
+    _error = false;
+    _scrollController = ScrollController();
+    getTasks(action: TasksActions.listSelectableTasks);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   Future<void> refreshAllCampaigns() async {
@@ -129,6 +163,8 @@ class GigaTurnipRepository {
       return Task.fromApiModel(apiTask);
     }).toList();
 
+
+
     _tasksLastFetchTime = DateTime.now();
     _openedTasks = openedTasks;
     _closedTasks = closedTasks;
@@ -143,14 +179,14 @@ class GigaTurnipRepository {
 
   Future<List<Task>> getTasks({
     required TasksActions action,
-    required Campaign selectedCampaign,
+    Campaign? selectedCampaign, // required, without ?
     bool forceRefresh = false,
   }) async {
     bool shouldRefreshFromApi =
         _shouldRefreshFromApi(_tasksLastFetchTime, forceRefresh) || _openedTasks.isEmpty;
 
     if (shouldRefreshFromApi) {
-      await refreshAllTasks(selectedCampaign);
+      await refreshAllTasks(selectedCampaign!); // remove !
     }
 
     switch (action) {
@@ -159,9 +195,26 @@ class GigaTurnipRepository {
       case TasksActions.listClosedTasks:
         return _closedTasks;
       case TasksActions.listSelectableTasks:
+        try {
+          setState(() {
+            _isLastPage = _availableTasks.length < _numberOfPostsPerRequest;
+            _loading = false;
+            _pageNumber = _pageNumber + 1;
+            _availableTasksList.addAll(_availableTasks);
+          });
+          print('over there');
+        } catch (e){
+          print("error --> $e");
+          setState(() {
+            _loading = false;
+            _error = true;
+          });
+          print('over here');
+        }
         return _availableTasks;
     }
   }
+
 
   Future<Task> getTask(int id) async {
     final response = await _gigaTurnipApiClient.getTaskById(id: id);
@@ -184,6 +237,10 @@ class GigaTurnipRepository {
     final tasks = await _gigaTurnipApiClient.getDisplayedPreviousTasks(id: id);
     return tasks.map((task) => Task.fromApiModel(task)).toList();
   }
+
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 class ApiInterceptors extends Interceptor {
@@ -199,4 +256,5 @@ class ApiInterceptors extends Interceptor {
 
     return handler.next(options);
   }
+
 }
